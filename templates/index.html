@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mumbai House Price Prediction</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f2f4f7; margin: 0; padding: 20px; }
+        .box { max-width: 420px; margin: 30px auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h2 { text-align: center; margin-top: 0; }
+        label { display: block; margin-top: 12px; font-size: 14px; }
+        input, select { width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; }
+        button { width: 100%; margin-top: 20px; padding: 10px; background: #2d6cdf; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+        .result { margin-top: 20px; padding: 12px; background: #e8f5e9; text-align: center; font-size: 18px; border-radius: 4px; }
+        .error { margin-top: 20px; padding: 12px; background: #fdecea; text-align: center; border-radius: 4px; }
+    </style>
+</head>
+<body>
+<div class="box">
+    <h2>Mumbai House Price Prediction</h2>
+    <form method="POST">
+        <label>BHK</label>
+        <input type="number" name="bhk" min="1" max="10" value="{{ form.get('bhk', 2) }}" required>
+
+        <label>Area (sqft)</label>
+        <input type="number" name="area" min="100" value="{{ form.get('area', 850) }}" required>
+
+        <label>Type</label>
+        <select name="type">
+            {% for o in options['type'] %}
+            <option value="{{ o }}" {% if form.get('type') == o %}selected{% endif %}>{{ o }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Region</label>
+        <select name="region">
+            {% for o in options['region'] %}
+            <option value="{{ o }}" {% if form.get('region') == o %}selected{% endif %}>{{ o }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Status</label>
+        <select name="status">
+            {% for o in options['status'] %}
+            <option value="{{ o }}" {% if form.get('status') == o %}selected{% endif %}>{{ o }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Age</label>
+        <select name="age">
+            {% for o in options['age'] %}
+            <option value="{{ o }}" {% if form.get('age') == o %}selected{% endif %}>{{ o }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Predict Price</button>
+    </form>
+
+    {% if result %}
+    <div class="result">Estimated price: <b>{{ result }}</b></div>
+    {% endif %}
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+</div>
+</body>
+</html>
